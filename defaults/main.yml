@@ -159,3 +159,29 @@ apt_extra_packages: []
 # list of packages to remove
 apt_remove_packages:
   - vim-tiny
+
+
+yum_repos_lists_default: []
+#    -
+#        distrib: "CenOS"
+#        repositories:
+#        -
+#            name: "BaseOS"
+#            file: "CentOS-Base.repo"
+#            desc: "CentOS-$releasever - Base"
+#            checkgpg: "yes"
+#            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+#            enabled: "yes/no"
+#            mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=BaseOS&infra=$infra"
+#        -
+#            name: "c8-media-BaseOS"
+#            file: "CentOS-Media.repo"
+#            desc: "CentOS-$releasever - Media"
+#            checkgpg: "yes"
+#            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+#            enabled: "yes/no"
+#            baseurl: []
+#              - "file:///media/CentOS/BaseOS"
+#              - "file:///media/cdrom/BaseOS"
+#              - "file:///media/cdrecorder/BaseOS"
+

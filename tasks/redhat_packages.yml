@@ -1,0 +1,12 @@
+---
+- name: remove packages
+  yum: name={{ item }} state=absent
+  with_items: "{{ yum_remove_packages }}"
+
+- name: install default packages
+  yum: name={{ item }} state=present
+  with_items: "{{ yum_default_packages }}"
+
+- name: install extra packages
+  yum: name={{ item }} state=present
+  with_items: "{{ yum_extra_packages }}"
