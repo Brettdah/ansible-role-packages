@@ -1,5 +1,5 @@
 ---
-- name: copy default sources list
+- name: debian_sources_list | Copy default sources list
   template:
     src: sources.list.j2
     dest: "{{ item.file }}"
@@ -11,7 +11,7 @@
   with_items: "{{ apt_sources_lists_default }}"
   register: apt_sources_lists_default_result
 
-- name: copy extra sources list
+- name: debian_sources_list | Copy extra sources list
   template:
     src: sources.list.j2
     dest: "{{ item.file }}"
@@ -23,7 +23,7 @@
   with_items: "{{ apt_sources_lists_extra }}"
   register: apt_sources_lists_extra_result
 
-- name: get default repositories keys
+- name: debian_sources_list | Get default repositories keys
   apt_key:
     keyserver: "{{ item.1.key_server|default(omit)}}"
     id: "{{ item.1.key_id|default(omit)}}"
@@ -34,7 +34,7 @@
     - "{{ apt_sources_lists_default }}"
     - repositories
 
-- name: get extra repositories keys
+- name: debian_sources_list | Get extra repositories keys
   apt_key:
     keyserver: "{{ item.1.key_server|default(omit)}}"
     id: "{{ item.1.key_id|default(omit)}}"
@@ -45,7 +45,7 @@
     - "{{ apt_sources_lists_extra }}"
     - repositories
 
-- name: add apt update on boot
+- name: debian_sources_list | Add apt update on boot
   copy:
     src: refresh-apt.conf
     dest: /etc/init/refresh-apt.conf

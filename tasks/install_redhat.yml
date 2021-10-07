@@ -1,5 +1,12 @@
 ---
-- include: redhat_dependencies.yml
-- include: redhat_repositories.yml
-- include: redhat_update.yml
-- include: redhat_packages.yml
+- name: install_redhat | Include redhat_dependencies
+  include: redhat_dependencies.yml
+
+- name: install_redhat | Include redhat_repositories
+  include: redhat_repositories.yml
+
+- name: install_redhat | Include redhat_update
+  include: redhat_update.yml
+
+- name: install_redhat | Include redhat_packages
+  include: redhat_packages.yml

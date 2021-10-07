@@ -1,5 +1,5 @@
 ---
-- name: install RedHat lsb-release
+- name: redhat_dependencies | Install RedHat lsb-release
   yum:
     name: redhat-lsb
     state: latest

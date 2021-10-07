@@ -1,12 +1,18 @@
 ---
-- name: remove packages
-  apt: name={{ item }} state=absent
+- name: debian_packages | Remove packages
+  apt:
+    name: "{{ item }}"
+    stater: absent
   with_items: "{{ apt_remove_packages }}"
 
-- name: install default packages
-  apt: name={{ item }} state=present
+- name: debian_packages | Install default packages
+  apt:
+    name: "{{ item }}"
+    state: present
   with_items: "{{ apt_default_packages }}"
 
-- name: install extra packages
-  apt: name={{ item }} state=present
+- name: debian_packages | Install extra packages
+  apt:
+    name: "{{ item }}"
+    state: present
   with_items: "{{ apt_extra_packages }}"

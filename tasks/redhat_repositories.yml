@@ -1,5 +1,5 @@
 ---
-- name: Ensuring Default Repo configuration
+- name: redhat_repositories | Ensuring Default Repo configuration
   yum_repository:
     file: "{{ item.file }}"
     name: "{{ item.name }}"
@@ -13,7 +13,7 @@
   with_items: "{{ yum_repos_default }}"
   register: yum_repos_default_result
 
-- name: Ensuring Extra repo list
+- name: redhat_repositories | Ensuring Extra repo list
   template:
     file: "{{ item.file }}"
     name: "{{ item.title }}"
@@ -26,7 +26,7 @@
   with_items: "{{ yum repos_extra }}"
   register: repos_extra_extra_result
 
-- name: get default repositories keys
+- name: redhat_repositories | Get default repositories keys
   rpm_key:
     keyserver: "{{ item.1.key_server|default(omit)}}"
     id: "{{ item.1.key_id|default(omit)}}"
@@ -37,7 +37,7 @@
     - "{{  yum_repos_default }}"
     - repositories
 
-- name: get extra repositories keys
+- name: redhat_repositories | Get extra repositories keys
   rpm_key:
     state: "{{ item.1.state|default(omit)}}"
     key: "{{ item.1.key_url|default(omit)}}"

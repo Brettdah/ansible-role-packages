@@ -1,5 +1,5 @@
 ---
-- name: install Debian lsb-release
+- name: debian_dependencies | Debian lsb-release
   apt:
     name: lsb-release
     state: latest
@@ -7,7 +7,7 @@
     - lsb-release
     - lsb
 
-- name: install APT tools dependencies
+- name: debian_dependencies | Install APT tools dependencies
   apt:
     name: "{{ item }}"
     state: latest

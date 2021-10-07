@@ -1,12 +1,42 @@
 ---
-- name: remove packages
-  yum: name={{ item }} state=absent
+- name: redhat_packages | Remove packages (yum)
+  yum:
+    name: "{{ item }}"
+    state: absent
   with_items: "{{ yum_remove_packages }}"
+  when: ansible_distribution_major_version|int < 8
 
-- name: install default packages
-  yum: name={{ item }} state=present
+- name: redhat_packages | Remove packages (dnf)
+  dnf:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ yum_remove_packages }}"
+  when: ansible_distribution_major_version|int >= 8
+
+- name: redhat_packages | Install default packages (yum)
+  yum:
+    name: "{{ item }}"
+    state: present
   with_items: "{{ yum_default_packages }}"
+  when: ansible_distribution_major_version|int < 8
 
-- name: install extra packages
-  yum: name={{ item }} state=present
+- name: redhat_packages | Istall default packages (dnf)
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ yum_default_packages }}"
+  when: ansible_distribution_major_version|int >= 8
+
+- name: redhat_packages | Install extra packages (yum)
+  yum:
+    name: "{{ item }}"
+    state: present
   with_items: "{{ yum_extra_packages }}"
+  when: ansible_distribution_major_version|int < 8
+
+- name: redhat_packages | Install extra packages (dnf)
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ yum_extra_packages }}"
+  when: ansible_distribution_major_version|int >= 8
