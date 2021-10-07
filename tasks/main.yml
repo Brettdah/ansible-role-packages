@@ -1,12 +1,3 @@
 ---
-- include: install_debian.yml
-  when: ansible_os_family == 'Debian'
-  tags:
-    - packages
-    - apt
-
-- include: install_redhat.yml
-  when: ansible_os_family == 'RedHat'
-  tags:
-    - packages
-    - yum
+- name: main | include install os_family file
+  include: "install_{{ ansible_os_family|lower }}.yml"
