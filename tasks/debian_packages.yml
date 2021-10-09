@@ -2,7 +2,7 @@
 - name: debian_packages | Remove packages
   apt:
     name: "{{ item }}"
-    stater: absent
+    state: absent
   with_items: "{{ apt_remove_packages }}"
 
 - name: debian_packages | Install default packages

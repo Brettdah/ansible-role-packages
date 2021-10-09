@@ -15,7 +15,7 @@
 
 - name: redhat_update | Yum updade
   yum:
-    name: *
+    name: '*'
     state: latest
     update_only: yes
     #upgrade: "{{ apt_upgrade_type|default('safe') }}"
@@ -25,7 +25,7 @@
 
 - name: redhat_update | Dnf update
   dnf:
-    name: *
+    name: '*'
     state: latest
     update_only: yes
   when:

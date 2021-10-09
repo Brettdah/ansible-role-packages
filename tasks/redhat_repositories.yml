@@ -22,15 +22,16 @@
     gpgkey: "{{ item.gpgkeypath }}"
     enabled: "{{ item.enabled }}"
     mirrorlist: "{{ item.mirrorlist }}"
+    mode: preserve
   when: ansible_distribution|lower == item.distrib|lower
   with_items: "{{ yum repos_extra }}"
   register: repos_extra_extra_result
 
 - name: redhat_repositories | Get default repositories keys
   rpm_key:
-    keyserver: "{{ item.1.key_server|default(omit)}}"
-    id: "{{ item.1.key_id|default(omit)}}"
-    url: "{{ item.1.key_url|default(omit)}}"
+    keyserver: "{{ item.1.key_server | default(omit) }}"
+    id: "{{ item.1.key_id | default(omit) }}"
+    url: "{{ item.1.key_url | default(omit) }}"
     state: present
   when: ansible_distribution|lower == item.0.distrib|lower and item.1.enabled|default(false) and (item.1.key_server is defined or item.1.key_url is defined or item.1.key_id is defined)
   with_subelements:
@@ -39,8 +40,8 @@
 
 - name: redhat_repositories | Get extra repositories keys
   rpm_key:
-    state: "{{ item.1.state|default(omit)}}"
-    key: "{{ item.1.key_url|default(omit)}}"
+    state: "{{ item.1.state | default(omit) }}"
+    key: "{{ item.1.key_url | default(omit) }}"
   when: ansible_distribution|lower == item.0.distrib|lower and item.1.enabled|default(false) and (item.1.key_server is defined or item.1.key_url is defined or item.1.key_id is defined)
   with_subelements:
     - "{{ yum_repos_extra }}"

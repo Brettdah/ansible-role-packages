@@ -5,3 +5,4 @@
     - name: prepare | update apt repo
       apt:
         update-cache: yes
+      when: ansible_os_family|lower == "debian"
