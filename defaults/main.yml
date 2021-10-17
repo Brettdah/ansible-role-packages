@@ -13,28 +13,28 @@ apt_sources_lists_default:
                 enabled: true
                 src_enabled: true
                 url: 'http://httpredir.debian.org/debian/'
-                packages: ['main','contrib','non-free']
+                packages: ['main', 'contrib', 'non-free']
                 section:  "{{ ansible_distribution_release }}"
             -
                 comment: 'Updates repositories'
                 enabled: true
                 src_enabled: true
                 url: 'http://httpredir.debian.org/debian/'
-                packages: ['main','contrib','non-free']
+                packages: ['main', 'contrib', 'non-free']
                 section:  "{{ ansible_distribution_release }}-updates"
             -
                 comment: 'Security Updates repositories'
                 enabled: true
                 src_enabled: true
                 url: 'http://security.debian.org/'
-                packages: ['main','contrib','non-free']
+                packages: ['main', 'contrib', 'non-free']
                 section:  "{{ ansible_distribution_release }}/updates"
             -
                 comment: 'Backports repositories'
                 enabled: true
                 src_enabled: true
                 url: 'http://httpredir.debian.org/debian/'
-                packages: ['main','contrib','non-free']
+                packages: ['main', 'contrib', 'non-free']
                 section:  "{{ ansible_distribution_release }}-backports"
 
     # Ubuntu
@@ -184,4 +184,3 @@ yum_repos_lists_default: []
 #              - "file:///media/CentOS/BaseOS"
 #              - "file:///media/cdrom/BaseOS"
 #              - "file:///media/cdrecorder/BaseOS"
-

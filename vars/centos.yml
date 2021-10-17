@@ -1,0 +1,206 @@
+---
+yum_replace: true
+yum_repo_lists_default:
+  -
+    name: "base"
+    file: "CentOS-Base"
+    desc: "CentOS-$releasever - Base"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-{{ansible_distribution_major_version}}"
+    enabled: "yes"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra"
+    #baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
+  -
+    name: "base-debuginfo"
+    file: "CentOS-Debuginfo"
+    desc: "CentOS-{{ansible_distribution_major_version}} - Debuginfo"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+    enabled: "no"
+    baseurl:
+      - "http://debuginfo.centos.org/{{ansible_distribution_major_version}}/$basearch/"
+  -
+    name: "centosplus"
+    file: "CentOS-Base"
+    desc: "CentOS-$releasever - plus"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-{{ansible_distribution_major_version}}"
+    enabled: "no"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=centosplus&infra=$infra"
+    #baseurl=http://mirror.centos.org/centos/$releasever/centosplus/$basearch/
+  -
+    name: "cr"
+    file: "CentOS-CR"
+    desc: "CentOS-$releasever - cr"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-{{ansible_distribution_major_version}}"
+    enabled: "no"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=cr&infra=$infra"
+  -
+    name: "extras"
+    file: "CentOS-Base"
+    desc: "CentOS-$releasever - Extras"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-{{ansible_distribution_major_version}}"
+    enabled: "yes"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras&infra=$infra"
+    #baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/
+  -
+    name: "fasttrack"
+    file: "CentOS-fasttrack"
+    desc: "CentOS-$releasever - fasttrack"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-{{ansible_distribution_major_version}}"
+    enabled: "no"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=fasttrack&infra=$infra"
+    #baseurl=http://mirror.centos.org/centos/$releasever/fasttrack/$basearch/
+  -
+    name: "updates"
+    file: "CentOS-Base"
+    desc: "CentOS-$releasever - Updates"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-{{ansible_distribution_major_version}}"
+    enabled: "yes"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates&infra=$infra"
+    #baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/
+  -
+    name: "c{{ansible_distribution_major_version}}-media"
+    file: "CentOS-Media"
+    desc: "CentOS-$releasever - Media"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-{{ansible_distribution_major_version}}"
+    enabled: "no"
+    baseurl:
+      - "file:///media/CentOS"
+      - "file:///media/cdrom"
+      - "file:///media/cdrecorder"
+  -
+    name: "base-source"
+    file: "CentOS-Sources"
+    desc: "CentOS-$releasever - Base Sources"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+    enabled: "no"
+    baseurl:
+      - "http://vault.centos.org/centos/$releasever/os/Source/"
+  -
+    name: "updates-source"
+    file: "CentOS-Sources"
+    desc: "CentOS-$releasever - Updates Sources"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+    enabled: "no"
+    baseurl:
+      - "http://vault.centos.org/centos/$releasever/updates/Source/"
+  -
+    name: "centosplus-source"
+    file: "CentOS-Sources"
+    desc: "CentOS-$releasever - Plus Sources"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+    enabled: "no"
+    baseurl:
+      - "http://vault.centos.org/centos/$releasever/centosplus/Source/"
+  -
+    name: "extras-source"
+    file: "CentOS-Sources"
+    desc: "CentOS-$releasever - Extras Sources"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+    enabled: "no"
+    baseurl:
+      - "http://vault.centos.org/centos/$releasever/extras/Source/"
+  -
+    name: "centos-kernel"
+    file: "CentOS-x86_64-kernel"
+    desc: "CentOS LTS Kernels for $basearch"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-{{ansible_distribution_major_version}}"
+    enabled: "no"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=kernel&infra=$infra"
+    #baseurl=http://mirror.centos.org/altarch/{{ansible_distribution_major_version}}/kernel/$basearch/
+  -
+    name: "centos-kernel-experimental"
+    file: "CentOS-x86_64-kernel"
+    desc: "CentOS Experimental Kernels for $basearch"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-{{ansible_distribution_major_version}}"
+    enabled: "no"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=experimental&infra=$infra"
+    #baseurl=http://mirror.centos.org/altarch/{{ansible_distribution_major_version}}/experimental/$basearch/
+
+yum_replace_vault: true
+
+yum_deploy_extra: false
+yum_repos_list_extra:
+  -
+    name: "AppStream"
+    file: "CentOS-AppStream"
+    desc: "CentOS-$releasever - AppStream"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+    enabled: "yes"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=AppStream&infra=$infra"
+  -
+    name: "HighAvailability"
+    file: "CentOS-HA"
+    desc: "CentOS-$releasever - HA"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+    enabled: "no"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=HighAvailability&infra=$infra"
+  -
+    name: "PowerTools"
+    file: "CentOS-PowerTools"
+    desc: "CentOS-$releasever - PowerTools"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+    enabled: "no"
+    mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=PowerTools&infra=$infra"
+
+yum_update: true
+
+epel_install: true
+
+
+yum_default_packages:
+  - vim
+  - tree
+  - git
+  - bash-completion
+  - openssh-server
+  - acl
+  - nano
+  - openssl
+  - ntpdate
+  - rsync
+  - unzip
+  - zip
+  - lzma
+  - screen
+  - tmux
+  - diffutils
+  - patch
+
+yum_extra_packages:
+  - dos2unix
+  - git-extras # in EPEL
+  - sipcalc  # in EPEL
+  #- samba
+  #- jq  # in EPEL
+
+# Other packages that can be interesting but not
+  #- git-flow see in pip package
+  #- trash-cli # see in pip packages
+  #- openssh-blacklist
+  #- openssh-blacklist-extra
+  #- openssl-blacklist
+  #- openssl-blacklist-extra
+
+
+
+# list of packages to remove
+yum_remove_packages: []
+
+# should be false it's for debug
+force_cache_update: true

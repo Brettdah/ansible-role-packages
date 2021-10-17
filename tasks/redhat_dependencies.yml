@@ -2,7 +2,7 @@
 - name: redhat_dependencies | Install RedHat lsb-release
   yum:
     name: redhat-lsb
-    state: latest
+    state: present
   tags:
     - lsb-release
     - lsb

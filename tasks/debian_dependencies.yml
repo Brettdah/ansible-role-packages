@@ -2,7 +2,7 @@
 - name: debian_dependencies | Debian lsb-release
   apt:
     name: lsb-release
-    state: latest
+    state: present
   tags:
     - lsb-release
     - lsb
@@ -10,7 +10,7 @@
 - name: debian_dependencies | Install APT tools dependencies
   apt:
     name: "{{ item }}"
-    state: latest
+    state: present
   with_items:
     - aptitude
     - debian-archive-keyring

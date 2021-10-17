@@ -1,5 +1,28 @@
 ---
-- name: redhat_repositories | Ensuring Default Repo configuration
+- name: include distrib_specifique vars (you may change the repo in vars folder)
+  include_vars: "{{ ansible_distribution|lower }}.yml"
+
+# - name: redhat_repositories | debug list...
+#   debug:
+#     msg: "{{ yum_repo_lists_default }}"
+
+# - name: redhat_repositories | debug elt...
+#   debug:
+#     msg: "File:{{ item.file }}, name:{{ item.name }}, description: {{ item.desc }}, gpgcheck: {{ item.checkgpg }},  gpgkey: {{ item.gpgkeypath }}, enabled: {{ item.enabled }}, mirrorlist: {{ item.mirrorlist|default('none') }}, baseurl: {{ item.baseurl|default ('none') }}"
+#   loop:
+#     "{{ yum_repo_lists_default }}"
+
+# - name: redhat_repositories | debug
+#   debug:
+#     var: "{{ item }}"
+#   loop:
+#     "{{ yum_repo_lists_default | flatten(levels=1) }}"
+
+
+# - name: I FAIL
+#   fail:
+
+- name: redhat_repositories | Ensuring Default Repo configuration exist
   yum_repository:
     file: "{{ item.file }}"
     name: "{{ item.name }}"
@@ -7,14 +30,27 @@
     gpgcheck: "{{ item.checkgpg }}"
     gpgkey: "{{ item.gpgkeypath }}"
     enabled: "{{ item.enabled }}"
-    mirrorlist: "{{ item.mirrorlist }}"
-    baseurl: "{{ item.baseurl }}"
-  when: yum_replace and ansible_distribution|lower == item.distrib|lower
-  with_items: "{{ yum_repos_default }}"
+    mirrorlist: "{{ item.mirrorlist|default(omit) }}"
+    baseurl: "{{ item.baseurl|default(omit) }}"
+  when:
+    - yum_replace
+  loop:
+    "{{ yum_repo_lists_default | flatten(levels=1) }}"
   register: yum_repos_default_result
 
-- name: redhat_repositories | Ensuring Extra repo list
+- name: redhat_repositories | Ensuring vault repo file exist
   template:
+    src: "CentOS-Vault.repo.{{ ansible_distribution|lower }}.{{ ansible_distribution_major_version }}.j2"
+    dest: "/etc/yum.repos.d/CentOS-Vault.repo"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  when: yum_replace_vault
+  register: yum_repos_lists_vaults_result
+
+- name: redhat_repositories | Ensuring Extra repo exist
+  yum_repository:
     file: "{{ item.file }}"
     name: "{{ item.title }}"
     description: "{{ item.desc }}"
@@ -22,26 +58,44 @@
     gpgkey: "{{ item.gpgkeypath }}"
     enabled: "{{ item.enabled }}"
     mirrorlist: "{{ item.mirrorlist }}"
-  when: ansible_distribution|lower == item.distrib|lower
-  with_items: "{{ yum repos_extra }}"
-  register: repos_extra_extra_result
+  when:
+    - yum_deploy_extra
+  loop:
+    "{{ yum_repos_list_extra }}"
+  register: yum_repos_lists_extra_result
 
-- name: redhat_repositories | Get default repositories keys
-  rpm_key:
-    keyserver: "{{ item.1.key_server|default(omit)}}"
-    id: "{{ item.1.key_id|default(omit)}}"
-    url: "{{ item.1.key_url|default(omit)}}"
-    state: present
-  when: ansible_distribution|lower == item.0.distrib|lower and item.1.enabled|default(false) and (item.1.key_server is defined or item.1.key_url is defined or item.1.key_id is defined)
-  with_subelements:
-    - "{{  yum_repos_default }}"
-    - repositories
+- name: redhat_repositories | Ensuring EPEL is installed (yum)
+  yum:
+    name: epel-release
+  when:
+    - ansible_distribution_major_version|int < 8
+    - epel_install
+  register: yum_repos_lists_extra_result
 
-- name: redhat_repositories | Get extra repositories keys
-  rpm_key:
-    state: "{{ item.1.state|default(omit)}}"
-    key: "{{ item.1.key_url|default(omit)}}"
-  when: ansible_distribution|lower == item.0.distrib|lower and item.1.enabled|default(false) and (item.1.key_server is defined or item.1.key_url is defined or item.1.key_id is defined)
-  with_subelements:
-    - "{{ yum_repos_extra }}"
-    - repositories
+- name: redhat_repositories | Ensuring EPEL is installed (dnf)
+  dnf:
+    name: epel-release
+  when:
+    - ansible_distribution_major_version|int >= 8
+    - epel_install
+  register: yum_repos_lists_extra_result
+
+# - name: redhat_repositories | Get default repositories keys
+#   rpm_key:
+#     keyserver: "{{ item.1.key_server | default(omit) }}"
+#     id: "{{ item.1.key_id | default(omit) }}"
+#     url: "{{ item.1.key_url | default(omit) }}"
+#     state: present
+#   when: ansible_distribution|lower == item.0.distrib|lower and item.1.enabled|default(false) and (item.1.key_server is defined or item.1.key_url is defined or item.1.key_id is defined)
+#   with_subelements:
+#     - "{{  yum_repo_lists_default }}"
+#     - repositories
+
+# - name: redhat_repositories | Get extra repositories keys
+#   rpm_key:
+#     state: "{{ item.1.state | default(omit) }}"
+#     key: "{{ item.1.key_url | default(omit) }}"
+#   when: ansible_distribution|lower == item.0.distrib|lower and item.1.enabled|default(false) and (item.1.key_server is defined or item.1.key_url is defined or item.1.key_id is defined)
+#   with_subelements:
+#     - "{{ yum_repos_extra }}"
+#     - repositories
