@@ -1,0 +1,12 @@
+---
+yum_replace: true
+yum_repo_lists_default:
+  -
+    name: "rockyplus-source"
+    file: "Rocky-Sources.repo"
+    desc: "Rocky-$releasever - Plus Sources"
+    checkgpg: "yes"
+    gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rockyofficial"
+    enabled: "no"
+    baseurl:
+      - "http://vault.rocky.org/$contentdir/$releasever/rockyplus/Source/"

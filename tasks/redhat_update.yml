@@ -2,25 +2,24 @@
 - name: redhat_update | Yum update cache
   yum:
     update_cache: yes
-    cache_valid_time: "{{ omit if yum_sources_lists_default_result.changed or yum_sources_lists_extra_result.changed else yum_update_cache_valid_time|default(3600) }}"
   when:
-    - ansible_os_distribution_major_version|int < 8
+    - ansible_distribution_major_version|int < 8
+    - yum_repos_default_result.changed or yum_repos_lists_vaults_result.changed or yum_repos_lists_extra_result.changed or force_cache_update
 
 - name: redhat_update | Dnf update cache
   dnf:
     update_cache: yes
-    cache_valid_time: "{{ omit if yum_sources_lists_default_result.changed or yum_sources_lists_extra_result.changed else yum_update_cache_valid_time|default(3600) }}"
   when:
-    - ansible_os_distribution_major_version|int >= 8
+    - ansible_distribution_major_version|int >= 8
+    - yum_repos_default_result.changed or yum_repos_lists_vaults_result.changed or yum_repos_lists_extra_result.changed or force_cache_update
 
 - name: redhat_update | Yum updade
   yum:
     name: '*'
     state: latest
     update_only: yes
-    #upgrade: "{{ apt_upgrade_type|default('safe') }}"
   when:
-    - ansible_os_distribution_major_version|int < 8
+    - ansible_distribution_major_version|int < 8
     - yum_update
 
 - name: redhat_update | Dnf update
@@ -29,5 +28,5 @@
     state: latest
     update_only: yes
   when:
-    - ansible_os_distribution_major_version|int >= 8
+    - ansible_distribution_major_version|int >= 8
     - yum_update
